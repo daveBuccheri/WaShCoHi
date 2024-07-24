@@ -1,3 +1,7 @@
 Come primo step è necessario installare Proxmox su server.
 In sintesi si scarica la ISO di Proxmox, la si flasha su una chiavetta tramite Rufus per rendere la ISO eseguibile.
 Per più dettaggli inerenti all'nstallazione di Proxmox su server seguire il seguente articolo: https://phoenixnap.com/kb/install-proxmox#:~:text=Follow%20the%20steps%20below%20to,configured%20out%20of%20the%20box.
+Una volta installato e configurato Proxmox vado a creare le seguenti VM/container:
+- 2 Containers Kali (uno interno alla rete di Active Directory ed uno al suo esterno), 
+- 2 Macchine Ubuntu Server
+- 2 Macchine Windows di cui un Server – Domain Controller ed un Client “Batman"
