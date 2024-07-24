@@ -16,3 +16,4 @@ cd monkey
 ./run_monkey.sh --targets <target_ip> 
 </target_ip>
 - Atomic test è una libreria di Atomic Red Team e viene utilizzato per verificare la risposta ad alcuni eventi.
+A questi tool si integrano: Wazuh, The Hive e Cortex
