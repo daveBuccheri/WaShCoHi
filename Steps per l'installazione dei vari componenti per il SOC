@@ -1,0 +1,3 @@
+Come primo step è necessario installare Proxmox su server.
+In sintesi si scarica la ISO di Proxmox, la si flasha su una chiavetta tramite Rufus per rendere la ISO eseguibile.
+Per più dettaggli inerenti all'nstallazione di Proxmox su server seguire il seguente articolo: https://phoenixnap.com/kb/install-proxmox#:~:text=Follow%20the%20steps%20below%20to,configured%20out%20of%20the%20box.
