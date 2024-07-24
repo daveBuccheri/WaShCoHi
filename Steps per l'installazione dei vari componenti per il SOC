@@ -2,6 +2,17 @@ Come primo step è necessario installare Proxmox su server.
 In sintesi si scarica la ISO di Proxmox, la si flasha su una chiavetta tramite Rufus per rendere la ISO eseguibile.
 Per più dettaggli inerenti all'nstallazione di Proxmox su server seguire il seguente articolo: https://phoenixnap.com/kb/install-proxmox#:~:text=Follow%20the%20steps%20below%20to,configured%20out%20of%20the%20box.
 Una volta installato e configurato Proxmox vado a creare le seguenti VM/container:
-- 2 Containers Kali (uno interno alla rete di Active Directory ed uno al suo esterno), 
+- 2 Containers Kali (uno interno alla rete di Active Directory ed uno al suo esterno) 
 - 2 Macchine Ubuntu Server
 - 2 Macchine Windows di cui un Server – Domain Controller ed un Client “Batman"
+Tool di attacco:
+NB: Si possono installare su macchina virtuale separata oppure anche su server.
+- Caldera è un framework per la gestione e l'automazione della risposta agli incidenti, il cui scopo è quello di centralizzare la raccolta, l'analisi e la risposta a eventi di sicurezza da diverse fonti, aiutando i team di sicurezza ad investigare suhli incidenti e trovare una risposta.
+Per avviarlo faccio quanto segue: clono il repository: git clone https://github.com/mitre/caldera.git, installo i requisiti: pip install -r requirements.txt, avvio il server con python server.py
+- Infection monkey simula attacchi e violazioni di sistema, installarlo coi seguenti comandi:
+git clone https://github.com/guardicore/monkey.git
+cd monkey
+./install.sh
+./run_monkey.sh --targets <target_ip> 
+</target_ip>
+- Atomic test è una libreria di Atomic Red Team e viene utilizzato per verificare la risposta ad alcuni eventi.
