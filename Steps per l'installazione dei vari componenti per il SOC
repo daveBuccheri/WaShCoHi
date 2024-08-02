@@ -9,6 +9,7 @@ Tool di attacco:
 NB: Si possono installare su macchina virtuale separata oppure anche su server.
 - Caldera è un framework per la gestione e l'automazione della risposta agli incidenti, il cui scopo è quello di centralizzare la raccolta, l'analisi e la risposta a eventi di sicurezza da diverse fonti, aiutando i team di sicurezza ad investigare suhli incidenti e trovare una risposta.
 Per avviarlo faccio quanto segue: clono il repository: git clone https://github.com/mitre/caldera.git, installo i requisiti: pip install -r requirements.txt, avvio il server con python server.py
+https://caldera.readthedocs.io/en/latest/
 - Infection monkey simula attacchi e violazioni di sistema, installarlo coi seguenti comandi:
 git clone https://github.com/guardicore/monkey.git
 cd monkey
