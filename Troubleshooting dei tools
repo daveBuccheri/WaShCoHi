@@ -1,0 +1,23 @@
+
+CALDERA
+La documentazione consiglia di eseguire i seguenti steps:
+- git clone https://github.com/mitre/caldera.git --recursive
+- cd caldera
+- pip3 install -r requirements.txt
+- python3 server.py --insecure --build
+
+Però all'ultimo comando si avranno problemi perchè nonostante siano stati importati moduli python in precedenza, verrà sempre indicato che mancano.
+Opzione migliore: creare un ambiente virtuale con i comandi che verranno elencati di seguito.
+
+1) Creo l'ambiente virtuale nella directory prima di caldera : python3 -m venv caldera_env
+2) cd caldera_env
+3) source bin/activate
+Da qui in poi seguire gli steps di installazione della documentazione ufficiale, pocanzi citata.
+
+WAZUH
+Ci sono 2 modi per l'installazione : quella step by step e quella automatizzata.
+Per ottimizzare i tempi ho seguito la guida al seguente link : https://medium.com/@promisejeremiah4/install-wazuh-on-ubuntu-endpoint-b911708c4303
+Se a seguito di un update ci dovessero essere problemi inerenti alle chiavi SSL anzichè aggiungere la chiave al keyring di Kali è giusto seguire i seguenti steps:
+root@ubuntu-VirtualBox:/home/ubuntu# curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --dearmor > /usr/share/keyrings/wazuh.gpg
+root@ubuntu-VirtualBox:/home/ubuntu# echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
+Si va a scaricare la chiave direttamente dalla repo di Github e la si inserisce nella lista dedicata in sources.list.d (parte dei file di configurazione).
