@@ -22,3 +22,19 @@ Se a seguito di un update ci dovessero essere problemi inerenti alle chiavi SSL 
 root@ubuntu-VirtualBox:/home/ubuntu# curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --dearmor > /usr/share/keyrings/wazuh.gpg
 root@ubuntu-VirtualBox:/home/ubuntu# echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
 Si va a scaricare la chiave direttamente dalla repo di Github e la si inserisce nella lista dedicata in sources.list.d (parte dei file di configurazione).
+
+MONGO DB 
+Quando scarico la chiave eseguendo i seguenti comandi : 
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt-get update
+Quando faccio l'update mi dà il seguente errore : W: http://repo.mongodb.org/apt/debian/dists/buster/mongodb-org/4.4/Release.gpg: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+Questo perchè nelle versioni di Ubuntu successive (a partire dalla 22.04) le chiavi vanno salvate all'interno della directory /trusted.gpg.d/ nei suoi file appositi, anzichè direttamente nel file trusted.gpg.
+Il problema viene risolto copiando il contenuto del file trusted.gpg in trusted.gpg.d.
+
+
+
+
+
+
+
