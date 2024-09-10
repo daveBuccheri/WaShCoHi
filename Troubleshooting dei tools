@@ -31,8 +31,11 @@ sudo apt-get update
 Quando faccio l'update mi dà il seguente errore : W: http://repo.mongodb.org/apt/debian/dists/buster/mongodb-org/4.4/Release.gpg: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 Questo perchè nelle versioni di Ubuntu successive (a partire dalla 22.04) le chiavi vanno salvate all'interno della directory /trusted.gpg.d/ nei suoi file appositi, anzichè direttamente nel file trusted.gpg.
 Il problema viene risolto copiando il contenuto del file trusted.gpg in trusted.gpg.d.
-
-
+Quando provo ad installare mongodb mi dice che non è possbile scaricarlo perchè i suoi 3 elementi (mongos, server e shell) dipendono da libssl.1.1, alchè provo ad installarlo ma mi esce l'avviso "E: Package 'libssl1.1' has no installation candidate ".
+Tutto ciò significa che sistema non è riuscito a trovare una versione installabile del pacchetto libssl1.1 nei repository configurati. Ciò significa che il pacchetto potrebbe essere mancante, non supportato dalla tua distribuzione o potrebbe esserci un problema con i repository.
+Il tutto è stato risolto facendo così : "wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
+Cosa fa Libssl1.1? E' una libreria essenziale per la maggior parte delle applicazioni che richiedono comunicazioni sicure su Internet. In sostanza, fornisce un insieme di funzioni e protocolli crittografici che permettono di proteggere i dati scambiati tra due o più sistemi.
 
 
 
