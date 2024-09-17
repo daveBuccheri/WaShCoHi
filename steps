@@ -2,3 +2,4 @@ GRAYLOG si compone dei seguenti servizi che devono venir avviati : Elasticsearch
 Le credenziali di Graylog sono admin:adminadmin
 Fai partire anche nginx (web server).
 Accedo a graylog da 127.0.0.1:9000
+https://www.linuxcloudvps.com/blog/how-to-install-graylog-server-on-ubuntu-22-04/
