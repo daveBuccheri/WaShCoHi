@@ -37,6 +37,9 @@ Il tutto è stato risolto facendo così : "wget http://archive.ubuntu.com/ubuntu
 sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
 Cosa fa Libssl1.1? E' una libreria essenziale per la maggior parte delle applicazioni che richiedono comunicazioni sicure su Internet. In sostanza, fornisce un insieme di funzioni e protocolli crittografici che permettono di proteggere i dati scambiati tra due o più sistemi.
 
+https://www.linuxcloudvps.com/blog/how-to-install-graylog-server-on-ubuntu-22-04/
+
+
 
 
 
