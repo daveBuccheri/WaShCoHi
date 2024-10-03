@@ -1,0 +1,20 @@
+VELOCIRAPTOR
+Configurazione del server:
+
+Vai sulla page ufficiale di Velociraptor, scarico il file
+Vai in Downloads, cambia i permessi: chmod 764 file
+Mkdir /opt/velociraptor
+Genero il file di configurazione: sudo ./velociraptor(nome file scaricato) config generate -i 
+Poi vado in /opt/velociraptor/server.config.yaml inserendo l'ip del mio server all'interno
+Creo un pacchetto Debian per velociraptor: sudo ./(nome file) --config /opt/velociraptor/(nome file) debian server --binary (nome file)
+Installo questo pacchetto: sudo dpkg -i (nome file)
+Controllare se il servizio sia attivo systemctl status velociraptor_server.service altrimenti attivarlo con l'opzione start
+Da browser metto ip:8889 e ci accedo
+
+Configurazione del client: 
+
+Le opzioni sono 2: o lo scarico direttamente sul client oppure da Ubuntu e trasferisco tutto sul client di seguito.
+Nel secondo caso scarico l'eseguibile di Velociraptor per Windows poi lancio "python3 -m porta ipubuntu". Da Windows ci accederò da browser ip:porta e scarico l'eseguibile.
+Fatto questo lancio il seguente comando per avere il file client.config.yaml(precedentemente compilato su Ubuntu col suo relativo IP) "scp nomeutenteubuntu@ipubuntu:/pathdelfile/client.config.yaml ."
+Altro comando: eseguibile-velociraptor --config client.config.yaml client -v
+Poi verifico da Velociraptor che il client sia presente!  
