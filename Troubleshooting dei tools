@@ -1,6 +1,7 @@
 Qui di seguito sono annotati gli steps per troubleshooting che potranno tornare utili quando si replicherà il tutto in futuro.
 
 CALDERA
+Per Kali 2024
 La documentazione consiglia di eseguire i seguenti steps:
 - git clone https://github.com/mitre/caldera.git --recursive
 - cd caldera
@@ -13,7 +14,24 @@ Opzione migliore: creare un ambiente virtuale con i comandi che verranno elencat
 1) Creo l'ambiente virtuale nella directory prima di caldera : python3 -m venv caldera_env
 2) cd caldera_env
 3) source bin/activate
-Da qui in poi seguire gli steps di installazione della documentazione ufficiale, pocanzi citata.
+Da qui in poi seguire gli steps di installazione della documentazione ufficiale, pocanzi citata. 
+
+Altrimenti per Kali 2023.1
+sudo apt update && sudo apt upgrade -y
+sudo apt install git python3 python3-pip -y
+git clone <https://github.com/mitre/caldera.git> --recursive --tag 3.1.0
+cd caldera && pip install -r requirements.txt
+python3 -m venv caldera_env
+source venv/bin/activate
+pip install-r requirements.txt
+NB: mi dirà che non ho i permessi (Could not install packages due to OSError [errno 14] permission denied: '/home/kali/caldera/caldera_env/lib/python3.12/webencodings', nb l'ultima directory non esiste nemmeno), allora lancio chown -R $USER .../caldera
+sudo apt update
+sudo apt install nodejs npm -y
+sudo npm install -g @vue/cli
+cd /home/kali/caldera
+npm install: questo comando mi darà problemi allora lancio "npm install --legacy-peer-deps"
+python3 server.py --insecure --build
+http://192.168.2.45:8888
 
 WAZUH
 Ci sono 2 modi per l'installazione : quella step by step e quella automatizzata.
