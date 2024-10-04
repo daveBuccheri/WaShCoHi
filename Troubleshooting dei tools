@@ -32,6 +32,16 @@ cd /home/kali/caldera
 npm install: questo comando mi darà problemi allora lancio "npm install --legacy-peer-deps"
 python3 server.py --insecure --build
 http://192.168.2.45:8888
+Se dovesse capitare che si inseriscono le credenziali e non parte la login è bene seguire i seguenti steps:
+- npm audit fix --force
+- vim  /caldera/conf/local.yml
+  app.contact.http: http://SERVER-IP:8888
+  app.frontend.api_base_url: http://SERVER-IP:8888
+- vim /caldera/plugins/magma/.env
+  VITE_CALDERA_URL=http://SERVER-IP:8888
+- python3 server.py --build --fresh
+- cat /caldera/conf/local.yml
+# find passwords to login.
 
 WAZUH
 Ci sono 2 modi per l'installazione : quella step by step e quella automatizzata.
