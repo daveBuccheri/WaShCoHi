@@ -1,0 +1,42 @@
+PRIMO TOOL - WAZUH
+Wazuh è composto da 3 componenti: Wazuh Manager, Indexer e Dashboard che vanno installati sul device che andrà a monitorare tutti gli endpoints. Mentre il wazuh agent andrà installato sui vari endpoints.
+WAZUH-INDEXER
+Con privilegi di sudo lancio i seguenti comandi:
+curl -sO https://packages.wazuh.com/4.9/wazuh-install.sh
+curl -sO https://packages.wazuh.com/4.9/config.yml
+Nel file config.yml ho inserito l'ip di Ubuntu (nodo principale).
+bash wazuh-install.sh --generate-config-files
+curl -sO https://packages.wazuh.com/4.9/wazuh-install.sh
+bash wazuh-install.sh --start-cluster
+tar -axf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt -O | grep -P "\'admin\'" -A 1
+curl -k -u admin:<ADMIN_PASSWORD> https://<WAZUH_INDEXER_IP>:9200
+curl -k -u admin:<ADMIN_PASSWORD> https://<WAZUH_INDEXER_IP>:9200/_cat/nodes?v
+WAZUH SERVER
+Con privilegi di sudo lancio i seguenti comandi:
+bash wazuh-install.sh --wazuh-server wazuh-1
+WAZUH DASHBOARD
+Con privilegi di sudo lancio i seguenti comandi:
+bash wazuh-install.sh --wazuh-dashboard dashboard
+tar -O -xvf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt
+WAZUH AGENT
+Ai fini di pentesting ho installato 2 agents, uno su una macchina virtuale ubuntu e l'altro sul mio pc aziendale WindoWs.
+Per installare windows dal sito ufficiale ho scaricato il Agent installer e da terminale ho lanciato i seguenti comandi con privilegi di amministratore: "wazuh-agent-4.9.0-1.msi /q WAZUH_MANAGER="192.168.2.229"" e "NET START Wazuh"
+Mentre per Ubuntu con privilegi di sudo lancio i seguenti comandi:"curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && chmod 644 /usr/share/keyrings/wazuh.gpg"
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
+apt-get update
+WAZUH_MANAGER="IP WAZUH-MANAGER" apt-get install wazuh-agent
+systemctl daemon-reload
+systemctl enable wazuh-agent
+systemctl start wazuh-agent
+Per bloccare aggiornamenti che potrebbero portare a conflitti tra l'agent e il manager lancio i seguenti comandi:
+sed -i "s/^deb/#deb/" /etc/apt/sources.list.d/wazuh.list
+apt-get update
+echo "wazuh-agent hold" | dpkg --set-selections
+
+NB - Steps per l'installazione assistita disponibile ai seguenti link: 
+https://documentation.wazuh.com/current/installation-guide/wazuh-indexer/installation-assistant.html
+https://documentation.wazuh.com/current/installation-guide/wazuh-server/installation-assistant.html
+https://documentation.wazuh.com/current/installation-guide/wazuh-dashboard/installation-assistant.html
+https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
+https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-windows.html
+
