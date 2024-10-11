@@ -135,7 +135,17 @@ sudo systemctl restart wazuh-manager
 
 NB: documentazione completa al seguente link https://wazuh.com/blog/using-wazuh-and-thehive-for-threat-protection-and-incident-response/
 
+MISP
 
+Questo tool l'ho dockerizzato. Una volta scaricato docker su Ubuntu ho:
+clonato il repo di misp: git clone https://github.com/MISP/misp-docker
+cd misp-docker
+cp templante.env .env
+nano .env modifico questo file nella sezione in cui c'è scritto "base url" (mettendo l'indirizzo ip della macchina Ubuntu e per comodità ho messo porta 8443, per evitare conflitti con altri tool).
+sudo docker compose build
+sudo docker compose up -d
+Poi da browser lanciando ip:8443 parte MISP.
+NB porte settate a questo modo: 8080:80, 8443:8443 dal file docker-compose.yml mentre nel file template.env  ho inserito ip:8443.
 
 
 
