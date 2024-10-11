@@ -43,6 +43,99 @@ https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-age
 Al riavvio di Ubuntu per abilitare Wazuh lancio i seguenti comandi: "systemctl enable wazuh-manager", "systemctl start wazuh-manager", "systemctl enable wazuh-indexer", "systemctl start wazuh-indexer", "systemctl enable wazuh-dashboard", "systemctl start wazuh-dashboard"
 NB: abilita l'agent su sistemi Linux con "systemctl enable wazuh-agent" , "systemctl start wazuh-agent" e su sistemi Windows con "NET START Wazuh".
 
+SECONDO TOOL - THE HIVE
+
+apt install wget gnupg apt-transport-https git ca-certificates ca-certificates-java curl software-properties-common python3-pip lsb-release
+wget -qO- https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/corretto.gpg
+echo "deb [signed-by=/usr/share/keyrings/corretto.gpg] https://apt.corretto.aws stable main" | sudo tee -a /etc/apt/sources.list.d/corretto.sources.list
+sudo apt update
+sudo apt install java-common java-11-amazon-corretto-jdk
+echo JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto" | sudo tee -a /etc/environment
+export JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto"
+wget -qO -  https://downloads.apache.org/cassandra/KEYS | sudo gpg --dearmor  -o /usr/share/keyrings/cassandra-archive.gpg
+echo "deb [signed-by=/usr/share/keyrings/cassandra-archive.gpg] https://debian.cassandra.apache.org 40x main" |  sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list 
+sudo apt update
+sudo apt install cassandra
+Modifica il seguente file : /etc/cassandra/cassandra.yaml, modifica il cluster_name (come vuoi) e il listen_address settato al nostro IP.
+sudo systemctl start cassandra
+sudo systemctl enable cassandra
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |  sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+sudo apt-get install apt-transport-https
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" |  sudo tee /etc/apt/sources.list.d/elastic-7.x.list 
+sudo apt update
+sudo apt install elasticsearch
+Crea il seguente file: /etc/elasticsearch/jvm.options.d/jvm.options aggiungendo i seguenti paramentri : "-Dlog4j2.formatMsgNoLookups=true
+-Xms4g
+-Xmx4g"
+sudo systemctl start elasticsearch
+sudo systemctl enable elasticsearch
+sudo mkdir -p /opt/thp/thehive/files
+chown -R thehive:thehive /opt/thp/thehive/files
+wget -O- https://raw.githubusercontent.com/StrangeBeeCorp/Security/main/PGP%20keys/packages.key | sudo gpg --dearmor -o /usr/share/keyrings/strangebee-archive-keyring.gpg
+echo 'deb [arch=all signed-by=/usr/share/keyrings/strangebee-archive-keyring.gpg] https://deb.strangebee.com thehive-5.3 main' |sudo tee -a /etc/apt/sources.list.d/strangebee.list
+sudo apt-get update
+sudo apt-get install -y thehive
+sudo systemctl start thehive
+sudo systemctl enable thehive
+Le credenziali di accesso sono le seguenti : Username: admin@thehive.local e Password: secret che andranno cambiate ovviamente.
+
+NB: gli steps pocanzi citati sono disponibili al seguente link
+https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/#thehive-installation-and-configuration
+
+STEP INTEGRAZIONE TRA THE HIVE E WAZUH
+
+sudo /var/ossec/framework/python/bin/pip3 install thehive4py==1.8.1
+All'interno di /var/ossec/integrations/custom-w2thive scrivo quanto segue :
+#!/bin/sh
+# Copyright (C) 2015-2020, Wazuh Inc.
+# Created by Wazuh, Inc. <info@wazuh.com>.
+# This program is free software; you can redistribute it and/or modify it under the terms of GP>
+
+WPYTHON_BIN="framework/python/bin/python3"
+SCRIPT_PATH_NAME="$0"
+DIR_NAME="$(cd $(dirname ${SCRIPT_PATH_NAME}); pwd -P)"
+SCRIPT_NAME="$(basename ${SCRIPT_PATH_NAME})"
+case ${DIR_NAME} in
+    */active-response/bin | */wodles*)
+        if [ -z "${WAZUH_PATH}" ]; then
+            WAZUH_PATH="$(cd ${DIR_NAME}/../..; pwd)"
+        fi
+    PYTHON_SCRIPT="${DIR_NAME}/${SCRIPT_NAME}.py"
+    ;;
+    */bin)
+    if [ -z "${WAZUH_PATH}" ]; then
+        WAZUH_PATH="$(cd ${DIR_NAME}/..; pwd)"
+    fi
+    PYTHON_SCRIPT="${WAZUH_PATH}/framework/scripts/${SCRIPT_NAME}.py"
+    ;;
+     */integrations)
+        if [ -z "${WAZUH_PATH}" ]; then
+            WAZUH_PATH="$(cd ${DIR_NAME}/..; pwd)"
+        fi
+    PYTHON_SCRIPT="${DIR_NAME}/${SCRIPT_NAME}.py"
+    ;;
+esac
+${WAZUH_PATH}/${WPYTHON_BIN} ${PYTHON_SCRIPT} $@
+sudo chmod 755 /var/ossec/integrations/custom-w2thive.py
+sudo chmod 755 /var/ossec/integrations/custom-w2thive
+sudo chown root:ossec /var/ossec/integrations/custom-w2thive.py
+sudo chown root:ossec /var/ossec/integrations/custom-w2thive
+Al file /var/ossec/etc/ossec aggiungo 
+<ossec_config>
+…
+  <integration>
+    <name>custom-w2thive</name>
+    <hook_url>http://TheHive_Server_IP:9000</hook_url>
+    <api_key>CHIAVE API</api_key>
+    <alert_format>json</alert_format>
+  </integration>
+…
+</ossec_config>
+sudo systemctl restart wazuh-manager
+
+NB: documentazione completa al seguente link https://wazuh.com/blog/using-wazuh-and-thehive-for-threat-protection-and-incident-response/
+
+
 
 
 
