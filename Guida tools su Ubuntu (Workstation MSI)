@@ -40,3 +40,9 @@ https://documentation.wazuh.com/current/installation-guide/wazuh-dashboard/insta
 https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
 https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-windows.html
 
+Al riavvio di Ubuntu per abilitare Wazuh lancio i seguenti comandi: "systemctl enable wazuh-manager", "systemctl start wazuh-manager", "systemctl enable wazuh-indexer", "systemctl start wazuh-indexer", "systemctl enable wazuh-dashboard", "systemctl start wazuh-dashboard"
+NB: abilita l'agent su sistemi Linux con "systemctl enable wazuh-agent" , "systemctl start wazuh-agent" e su sistemi Windows con "NET START Wazuh".
+
+
+
+
